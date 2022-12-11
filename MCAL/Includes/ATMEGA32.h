@@ -115,6 +115,19 @@ typedef struct
 #define DIOD			((Typdef_DIOx_t *)DIOD_BASE)
 
 
+// Base Addresses for SPI registers
+#define SPCR_BASE							 0x2D
+#define SPSR_BASE						     0x2E
+#define SPDR_BASE						     0x2F
+
+typedef struct
+{
+	volatile unsigned char SPCR_m  ;
+	volatile unsigned char SPSR_m  ;
+	volatile unsigned char SPDR_m  ;
+}Typdef_SPI_t;
+
+#define SPI	            ((Typdef_SPI_t *)SPCR_BASE)
 
 
 
