@@ -9,7 +9,7 @@
 #include "Includes/DIO.h"
 
 // ============================= General Pointers=========================
-Typdef_SPI_t *SPI_m;
+
 
 // ============================= Inner Functions=========================
 void SPI_Pins_Master_init(void)
@@ -79,96 +79,96 @@ void MCAL_SPI_init(SPI_PinConfig_t *pinCinfig)
 	switch(pinCinfig->SPI_interrupt)
 	{
 		case SPI_Interrupt_Enable:
-			SPI_m->SPCR_m |=SPIE_m;
+			SPI->SPCR_m |=SPIE_m;
 			break;
 		case SPI_Interrupt_Disable:
-			SPI_m->SPCR_m &=~(SPIE_m);
+			SPI->SPCR_m &=~(SPIE_m);
 			break;
 	}
 	if (pinCinfig->SPI_Direction == SPI_Dir_Master)
 	{
-		SPI_m->SPCR_m |= (MSTR_m);
+		SPI->SPCR_m |= (MSTR_m);
 		SPI_Pins_Master_init();
 		switch(pinCinfig->SPI_Data_order)
 		{
 			case SPI_Data_order_LSB :
-				SPI_m->SPCR_m |= (DORD_m);
+				SPI->SPCR_m |= (DORD_m);
 				break;
 			case SPI_Data_order_MSB :
-				SPI_m->SPCR_m &= ~(DORD_m);
+				SPI->SPCR_m &= ~(DORD_m);
 				break;
 		}
 		switch(pinCinfig->SPI_Mode)
 		{
 			case SPI_Mode_0:
-				SPI_m->SPCR_m &= ~(CPOL_m);
-				SPI_m->SPCR_m &= ~(CPHA_m);
+				SPI->SPCR_m &= ~(CPOL_m);
+				SPI->SPCR_m &= ~(CPHA_m);
 				break;
 			case SPI_Mode_1:
-				SPI_m->SPCR_m &= ~(CPOL_m);
-				SPI_m->SPCR_m |= (CPHA_m);
+				SPI->SPCR_m &= ~(CPOL_m);
+				SPI->SPCR_m |= (CPHA_m);
 				break;
 			case SPI_Mode_2:
-				SPI_m->SPCR_m |= (CPOL_m);
-				SPI_m->SPCR_m &= ~(CPHA_m);
+				SPI->SPCR_m |= (CPOL_m);
+				SPI->SPCR_m &= ~(CPHA_m);
 				break;
 			case SPI_Mode_3:
-				SPI_m->SPCR_m |= (CPOL_m);
-				SPI_m->SPCR_m |= (CPHA_m);
+				SPI->SPCR_m |= (CPOL_m);
+				SPI->SPCR_m |= (CPHA_m);
 				break;
 		}
 		switch(pinCinfig->SPI_Clock_Rate)
 		{
 			case SPI_Clock_Rate_Fosc_D4:
-				SPI_m->SPCR_m &= ~(SPR0_m);
-				SPI_m->SPCR_m &= ~(SPR1_m);
-				SPI_m->SPSR_m &= ~(SPR0_m);
+				SPI->SPCR_m &= ~(SPR0_m);
+				SPI->SPCR_m &= ~(SPR1_m);
+				SPI->SPSR_m &= ~(SPR0_m);
 				break;
 			case SPI_Clock_Rate_Fosc_D16:
-				SPI_m->SPCR_m |=  (SPR0_m);
-				SPI_m->SPCR_m &= ~(SPR1_m);
-				SPI_m->SPSR_m &= ~(SPR0_m);
+				SPI->SPCR_m |=  (SPR0_m);
+				SPI->SPCR_m &= ~(SPR1_m);
+				SPI->SPSR_m &= ~(SPR0_m);
 				break;
 			case SPI_Clock_Rate_Fosc_D64:
-				SPI_m->SPCR_m &= ~(SPR0_m);
-				SPI_m->SPCR_m |=  (SPR1_m);
-				SPI_m->SPSR_m &= ~(SPR0_m);
+				SPI->SPCR_m &= ~(SPR0_m);
+				SPI->SPCR_m |=  (SPR1_m);
+				SPI->SPSR_m &= ~(SPR0_m);
 				break;
 			case SPI_Clock_Rate_Fosc_D128:
-				SPI_m->SPCR_m |=  (SPR0_m);
-				SPI_m->SPCR_m |=  (SPR1_m);
-				SPI_m->SPSR_m &= ~(SPR0_m);
+				SPI->SPCR_m |=  (SPR0_m);
+				SPI->SPCR_m |=  (SPR1_m);
+				SPI->SPSR_m &= ~(SPR0_m);
 				break;	
 			case SPI_Clock_Rate_D_Fosc_D4:
-				SPI_m->SPCR_m &= ~(SPR0_m);
-				SPI_m->SPCR_m &= ~(SPR1_m);
-				SPI_m->SPSR_m |=  (SPR0_m);
+				SPI->SPCR_m &= ~(SPR0_m);
+				SPI->SPCR_m &= ~(SPR1_m);
+				SPI->SPSR_m |=  (SPR0_m);
 				break;
 			case SPI_Clock_Rate_D_Fosc_D16:
-				SPI_m->SPCR_m |=  (SPR0_m);
-				SPI_m->SPCR_m &= ~(SPR1_m);
-				SPI_m->SPSR_m |=  (SPR0_m);
+				SPI->SPCR_m |=  (SPR0_m);
+				SPI->SPCR_m &= ~(SPR1_m);
+				SPI->SPSR_m |=  (SPR0_m);
 				break;
 			case SPI_Clock_Rate_D_Fosc_D64:
-				SPI_m->SPCR_m &= ~(SPR0_m);
-				SPI_m->SPCR_m |=  (SPR1_m);
-				SPI_m->SPSR_m |=  (SPR0_m);
+				SPI->SPCR_m &= ~(SPR0_m);
+				SPI->SPCR_m |=  (SPR1_m);
+				SPI->SPSR_m |=  (SPR0_m);
 				break;
 			case SPI_Clock_Rate_D_Fosc_D128:
-				SPI_m->SPCR_m |=  (SPR0_m);
-				SPI_m->SPCR_m |=  (SPR1_m);
-				SPI_m->SPSR_m |=  (SPR0_m);
+				SPI->SPCR_m |=  (SPR0_m);
+				SPI->SPCR_m |=  (SPR1_m);
+				SPI->SPSR_m |=  (SPR0_m);
 				break;
 		}
 	}
 	else if (pinCinfig->SPI_Direction == SPI_Dir_Slave)
 	{
-		SPI_m->SPCR_m &= ~(MSTR_m);
+		SPI->SPCR_m &= ~(MSTR_m);
 		SPI_Pins_Slave_init();
 	}
 	
 	// Enable SPI 
-	SPI_m->SPCR_m |= SPE_m;
+	SPI->SPCR_m |= SPE_m;
 }
 
 /**================================================================
@@ -182,7 +182,7 @@ void MCAL_SPI_init(SPI_PinConfig_t *pinCinfig)
 ================================================================**/
 void MCAL_SPI_send_Data(uint8_t Data)
 {
-	SPI_m->SPDR_m = Data;
+	SPI->SPDR_m = Data;
 	Wait_Transmition_complete();	
 }
 
@@ -197,7 +197,7 @@ void MCAL_SPI_send_Data(uint8_t Data)
 uint8_t MCAL_SPI_Receive_Data()
 {
 	Wait_Transmition_complete();
-	return SPI_m->SPDR_m;
+	return SPI->SPDR_m;
 }
 /**================================================================
  * @Fn		  - MCAL_SPI_send_Receive_Byte
@@ -210,7 +210,7 @@ uint8_t MCAL_SPI_Receive_Data()
 ================================================================**/
 uint8_t MCAL_SPI_send_Receive_Data(uint8_t Data)
 {
-	SPI_m->SPDR_m = Data;
+	SPI->SPDR_m = Data;
 	Wait_Transmition_complete();
-	return SPI_m->SPDR_m;
+	return SPI->SPDR_m;
 }
