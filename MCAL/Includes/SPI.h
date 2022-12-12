@@ -96,17 +96,12 @@ SPI2X			SPR1			SPR0			SCK Frequency
 
 #define Wait_Transmition_complete()						   while(!(SPI->SPSR_m)&(1<<7))
 
-//========================Pins configuration ===============
-#define MOSI												5
-#define MISO												6
-#define SCK													7
-#define SS													4
 
 //====================== APIS ============================
-void MCAL_SPI_init(Typdef_SPI_t *SPI_m,SPI_PinConfig_t *pinCinfig);
-void MCAL_SPI_send_Data(Typdef_SPI_t *SPI_m,uint8_t Data);
-uint8_t MCAL_SPI_Receive_Data(Typdef_SPI_t *SPI_m);
-uint8_t MCAL_SPI_send_Receive_Data(Typdef_SPI_t *SPI_m,uint8_t Data);
+void MCAL_SPI_init(SPI_PinConfig_t *pinCinfig);
+void MCAL_SPI_send_Data(uint8_t Data);
+uint8_t MCAL_SPI_Receive_Data();
+uint8_t MCAL_SPI_send_Receive_Data(uint8_t Data);
 
 
 

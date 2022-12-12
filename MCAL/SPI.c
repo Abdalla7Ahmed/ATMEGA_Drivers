@@ -7,6 +7,10 @@
 
 #include "Includes/SPI.h"
 #include "Includes/DIO.h"
+
+// ============================= General Pointers=========================
+Typdef_SPI_t *SPI_m;
+
 // ============================= Inner Functions=========================
 void SPI_Pins_Master_init(void)
 {
@@ -69,8 +73,9 @@ void SPI_Pins_Slave_init(void)
  * Note		  - none
  * 			  
 ================================================================**/
-void MCAL_SPI_init(Typdef_SPI_t *SPI_m,SPI_PinConfig_t *pinCinfig)
+void MCAL_SPI_init(SPI_PinConfig_t *pinCinfig)
 {
+	
 	switch(pinCinfig->SPI_interrupt)
 	{
 		case SPI_Interrupt_Enable:
@@ -175,7 +180,7 @@ void MCAL_SPI_init(Typdef_SPI_t *SPI_m,SPI_PinConfig_t *pinCinfig)
  * Note		  - none
  * 			  
 ================================================================**/
-void MCAL_SPI_send_Data(Typdef_SPI_t *SPI_m,uint8_t Data)
+void MCAL_SPI_send_Data(uint8_t Data)
 {
 	SPI_m->SPDR_m = Data;
 	Wait_Transmition_complete();	
@@ -189,7 +194,7 @@ void MCAL_SPI_send_Data(Typdef_SPI_t *SPI_m,uint8_t Data)
  * Note		  - none
  * 			  
 ================================================================**/
-uint8_t MCAL_SPI_Receive_Data(Typdef_SPI_t *SPI_m)
+uint8_t MCAL_SPI_Receive_Data()
 {
 	Wait_Transmition_complete();
 	return SPI_m->SPDR_m;
@@ -203,7 +208,7 @@ uint8_t MCAL_SPI_Receive_Data(Typdef_SPI_t *SPI_m)
  * Note		  - none
  * 			  
 ================================================================**/
-uint8_t MCAL_SPI_send_Receive_Data(Typdef_SPI_t *SPI_m,uint8_t Data)
+uint8_t MCAL_SPI_send_Receive_Data(uint8_t Data)
 {
 	SPI_m->SPDR_m = Data;
 	Wait_Transmition_complete();
