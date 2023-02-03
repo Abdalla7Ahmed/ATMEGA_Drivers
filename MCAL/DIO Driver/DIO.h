@@ -12,9 +12,6 @@
 
 //=====================Includes===========================
 #include "ATMEGA32.h"
-#define F_CPU 1000000UL
-#include<avr/io.h>
-#include<util/delay.h>
 //========================================================
 
 //=====================user type definitions===========================
@@ -30,7 +27,7 @@ typedef struct
 }DIO_PinConfig_t;
 
 
-
+//========================================================
 //@ref DIO_PIN_define
 #define DIO_PIN_0             ((unsigned char)0x01U) // pin 0      0b0000 0001
 #define DIO_PIN_1             ((unsigned char)0x02U) // pin 1      0b0000 0010
