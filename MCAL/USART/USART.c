@@ -202,7 +202,7 @@ void MCAL_USART_Deinit(void)
  * @retval	  - flags value
  * Note		  - none
 ================================================================**/	
-uint8_t MCAL_USART_Send_data(uint16_t *TxBuffer,Polling_State_t Polling_state)
+Flags_Error MCAL_USART_Send_data(uint16_t *TxBuffer,Polling_State_t Polling_state)
 {
 	if(Polling_state != Disable_Polling)
 	{
@@ -232,8 +232,10 @@ uint8_t MCAL_USART_Send_data(uint16_t *TxBuffer,Polling_State_t Polling_state)
 	{
 		_UDR = (*TxBuffer & (uint8_t)0x1F);
 	}
-	uint8_t Flags=0;
-	Flags = (_UCSRA & 0xFC);
+	Flags_Error Flags;
+	Flags.Frame_Erro   = USART_Get_Flag_State(_FE);
+	Flags.Parity_Error = USART_Get_Flag_State(_PE);
+	Flags.Data_OverRun = USART_Get_Flag_State(_DOR);
 	return Flags;
 }
 
@@ -245,7 +247,7 @@ uint8_t MCAL_USART_Send_data(uint16_t *TxBuffer,Polling_State_t Polling_state)
  * @retval	  - flags value
  * Note		  - none
 ================================================================**/	
-uint8_t MCAL_USART_Receive_Data(uint16_t *RxBuffer,Polling_State_t Polling_state)
+Flags_Error MCAL_USART_Receive_Data(uint16_t *RxBuffer,Polling_State_t Polling_state)
 {
 	uint8_t MSB =0;
 	if(Polling_state != Disable_Polling)
@@ -276,8 +278,10 @@ uint8_t MCAL_USART_Receive_Data(uint16_t *RxBuffer,Polling_State_t Polling_state
 	{
 		*((uint16_t*) RxBuffer) = (_UDR &(uint8_t)0x1F);
 	}
-	uint8_t Flags=0;
-	Flags = (_UCSRA & 0xFC);
+	Flags_Error Flags;
+	Flags.Frame_Erro   = USART_Get_Flag_State(_FE);
+	Flags.Parity_Error = USART_Get_Flag_State(_PE);
+	Flags.Data_OverRun = USART_Get_Flag_State(_DOR);
 	return Flags;
 }
 
@@ -289,7 +293,7 @@ uint8_t MCAL_USART_Receive_Data(uint16_t *RxBuffer,Polling_State_t Polling_state
  * @retval	  - flags value
  * Note		  - none
 ================================================================**/	
-uint8_t MCAL_USART_Send_AND_Receive_Data(uint16_t *Buffer,Polling_State_t Polling_state)
+Flags_Error MCAL_USART_Send_AND_Receive_Data(uint16_t *Buffer,Polling_State_t Polling_state)
 {
 	uint8_t MSB =0;
 	// send the current buffer
@@ -351,8 +355,10 @@ uint8_t MCAL_USART_Send_AND_Receive_Data(uint16_t *Buffer,Polling_State_t Pollin
 	{
 		*((uint16_t*) Buffer) = (_UDR &(uint8_t)0x1F);
 	}
-	uint8_t Flags=0;
-	Flags = (_UCSRA & 0xFC);
+	Flags_Error Flags;
+	Flags.Frame_Erro   = USART_Get_Flag_State(_FE);
+	Flags.Parity_Error = USART_Get_Flag_State(_PE);
+	Flags.Data_OverRun = USART_Get_Flag_State(_DOR);
 	return Flags;
 }
 /**================================================================

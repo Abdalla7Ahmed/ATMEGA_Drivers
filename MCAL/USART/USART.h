@@ -127,6 +127,13 @@ typedef enum
 	_PE		/*Parity Error*/	
 }Status;
 
+typedef struct 
+{
+	uint8_t Frame_Erro:1;
+	uint8_t Data_OverRun :1 ;
+	uint8_t Parity_Error :1;
+	uint8_t Reserved :5;
+}Flags_Error;
 
 // =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*
 // *==================== APIS ==========================*
@@ -134,9 +141,9 @@ typedef enum
 
 void MCAL_USART_Init(USART_Config *USART_Configuration);
 void MCAL_USART_Deinit(void);
-uint8_t MCAL_USART_Send_data(uint16_t *TxBuffer,Polling_State_t Polling_state);
-uint8_t MCAL_USART_Receive_Data(uint16_t *RxBuffer,Polling_State_t Polling_state);
-uint8_t MCAL_USART_Send_AND_Receive_Data(uint16_t *Buffer,Polling_State_t Polling_state);
+Flags_Error MCAL_USART_Send_data(uint16_t *TxBuffer,Polling_State_t Polling_state);
+Flags_Error MCAL_USART_Receive_Data(uint16_t *RxBuffer,Polling_State_t Polling_state);
+Flags_Error MCAL_USART_Send_AND_Receive_Data(uint16_t *Buffer,Polling_State_t Polling_state);
 void MCAL_USART_send_string(uint8_t *string);
 void MCAL_USART_send_number(uint32_t *number);
 void MCAL_USART_receive_string(uint8_t *buffer,uint8_t defaultStop);
