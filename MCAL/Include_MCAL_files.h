@@ -13,5 +13,12 @@
 #include "DIO.h"
 #include "SPI.h"
 #include "EXTRI.h"
+#include "USART.h"
+#include "Timer8bit.h"
+#include "Watchdog.h"
+#include "ADC.h"
+#include "Timer1.h"
+
+#include "../../Infrastrucure/Utils.h"
 
 #endif /* INCLUDE_MCAL_FILES_H_ */

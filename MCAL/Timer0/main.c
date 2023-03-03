@@ -18,15 +18,24 @@ int main(void)
 {
 	DDRA = 0xFF;
 	
-	Timer0_config_t Timer0;
-	Timer0.Timer0_mode = Timer0_Fast_PWM_mode;
-	Timer0.Clock_Select = Clock_Select_8_prescaling;
-	//Timer0.Interrupt_controle = Interrupt_Enable_Compare;
-	Timer0.P_IRQ_Callback = IRQ_callback;
-	Timer0.OCO_Actio=Clear_OC0_on_compare_set_OCO_at_BOTTOM;
-	Timer0.Output_Compare_Register_Value = 0xF0;
-	MCAL_Timer0_init(&Timer0);
+	Timer8bit_config_t Timer;
+	Timer.Timer_Number = Timer_Number_ZERO;
+	Timer.Timer8bit_mode = Timer8bit_CTC_mode;
+	Timer.Clock_Select = Clock_Select_8_prescaling;
+	Timer.Interrupt_controle = Timer0_Interrupt_Enable_Compare;
+	Timer.P_Compare_IRQ_Callback= IRQ_callback;
+	Timer.OC_Actio=Toggle_OC_on_compare_match;
+	Timer.Output_Compare_Register_Value = 0xF5;
+	MCAL_Timer8bit_init(&Timer);
 	
+ 	Timer.Timer8bit_mode = Timer8bit_CTC_mode;
+ 	Timer.Timer_Number = Timer_Number_TWO;
+ 	Timer.Clock_Select = Clock_Select_8_prescaling;
+ 	//Timer.Interrupt_controle = TimerInterrupt_Enable_Compare;
+ 	Timer.P_Compare_IRQ_Callback= IRQ_callback;
+ 	Timer.OC_Actio=Toggle_OC_on_compare_match;
+ 	Timer.Output_Compare_Register_Value = 0x5;
+ 	MCAL_Timer8bit_init(&Timer);
 	while(1)
 	{
 
