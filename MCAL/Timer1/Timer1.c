@@ -33,7 +33,7 @@ static uint32_t Timer1_Oveflow_Times =0;
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 // Generic Functions
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-MCAL_Get_Top_Value(uint16_t *TOP_Value)
+void MCAL_Get_Top_Value(uint16_t *TOP_Value)
 {
 	uint16_t Value =0;
 	switch (G_Timer1_config->Waveform_Generation)
