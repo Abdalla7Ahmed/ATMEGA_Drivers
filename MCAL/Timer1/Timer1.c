@@ -548,7 +548,6 @@ Func_State MCAL_Timer1_UPdate_OCR1B_immediate(void)
 Func_State MCAL_Timer1_Get_Frequencry_PWM(uint32_t *Frequency)
 {
 	Func_State State = FUN_NOK;
-	#define FCPU_Freq			8000000UL
 	uint32_t Timer_Freq =0;
 	uint32_t PWM_freq = 0;
 	uint16_t TOP_Value=0;
@@ -573,7 +572,7 @@ Func_State MCAL_Timer1_Get_Frequencry_PWM(uint32_t *Frequency)
 			break;
 		
 	}
-	Timer_Freq = ( FCPU_Freq / prescaling_Value);
+	Timer_Freq = ( (uint32_t)F_CPU / prescaling_Value);
 	MCAL_Get_Top_Value(&TOP_Value);
 	
 	PWM_freq = (Timer_Freq / (TOP_Value+1));
