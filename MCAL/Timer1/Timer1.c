@@ -278,51 +278,39 @@ Func_State MCAL_Timer1_init(Timer1_config_t *Timer1_config)
 	_TCCR1B |=Timer1_config->Clock_Select;
 	
 	// the input capture 
-	_TCCR1B |=Timer1_config->Input_Capture.Input_Capture_Noise_Canceler;
-	_TCCR1B |=Timer1_config->Input_Capture.Input_Capture_Edge_Select;
+	_TCCR1B |=Timer1_config->Input_Capture_Noise_Canceler;
+	_TCCR1B |=Timer1_config->Input_Capture_Edge_Select;
 	
 	// the interrupt control
-	if(Timer1_config->Timer1_Interrupt)
+	if(Timer1_config->Timer1_Interrupt !=Interrupt_Disable)
 	{
-		switch(Timer1_config->Timer1_Interrupt)
-		{
-			case Interrupt_Input_Capture:
-				Timer1_IRQ_Input_Capture_CallBack = Timer1_config->P_Input_Capture_IRQ_Callback;
-				Timer1_Enable_Input_Capture_Interrupt();
-				break;
-			case Interrupt_Enable_Overflow :
-				Timer1_IRQ_OverFlow_CallBack = Timer1_config->P_Overflow_IRQ_Callback;
-				Timer1_Enable_OverFlow_Interrupt();
-				break;
-			case Interrupt_Enable_Output_Compare_A_Match :
-				Timer1_IRQ_Compare_A_Match_CallBack = Timer1_config->P_Compare_A_Match_IRQ_Callback;
-				Timer1_Enable_Compare_A_Interrupt();
-				break;
-			case Interrupt_Enable_Output_Compare_B_Match :
-				Timer1_IRQ_Compare_B_Match_CallBack = Timer1_config->P_Compare_B_Match_IRQ_Callback;
-				Timer1_Enable_Compare_B_Interrupt();
-				break;
-		}
+		General_Interrupt_Enable ();
+		_TIMSK |= Timer1_config->Timer1_Interrupt;
+		Timer1_IRQ_Input_Capture_CallBack = Timer1_config->P_Input_Capture_IRQ_Callback;
+		Timer1_IRQ_OverFlow_CallBack = Timer1_config->P_Overflow_IRQ_Callback;
+		Timer1_IRQ_Compare_A_Match_CallBack = Timer1_config->P_Compare_A_Match_IRQ_Callback;
+		Timer1_IRQ_Compare_B_Match_CallBack = Timer1_config->P_Compare_B_Match_IRQ_Callback;
 	}
 	else
 	{
-		switch(Timer1_config->Timer1_Polling)
+		if(Timer1_config->Timer1_Polling == Polling_ON_Input_Capture)
 		{
-			case Polling_ON_Input_Capture:
-				while (! (_TIFR & (Polling_ON_Input_Capture)));
-				break;
-			case Polling_ON_Output_Compare_A_Match :
-				while (! (_TIFR & (Polling_ON_Output_Compare_A_Match)));
-				break;
-			case Polling_ON_Output_Compare_B_Match :
-				while (! (_TIFR & (Polling_ON_Output_Compare_B_Match)));
-				break;
-			case Polling_ON_Overflow :
-				while (! (_TIFR & (Polling_ON_Overflow)));
-				break;
+			while (! (_TIFR & (Polling_ON_Input_Capture)));
 		}
-		
+		if(Timer1_config->Timer1_Polling ==Polling_ON_Output_Compare_A_Match )
+		{
+			while (! (_TIFR & (Polling_ON_Output_Compare_A_Match)));
+		}
+		if(Timer1_config->Timer1_Polling ==Polling_ON_Output_Compare_B_Match )
+		{
+			while (! (_TIFR & (Polling_ON_Output_Compare_B_Match)));
+		}
+		if(Timer1_config->Timer1_Polling ==Polling_ON_Overflow )
+		{
+			while (! (_TIFR & (Polling_ON_Overflow)));
+		}
 	}
+
 	/* ============ Set TCNT1 Value ============*/
 	MCAL_Timer1_UPdate_TCNT1_Value(Timer1_config->TCNT1_Value);
 	/* ============ Set OCR1A Value ============*/
@@ -609,7 +597,7 @@ Func_State MCAL_Timer1_Get_Duty_Cycle_PWM(uint8_t *Duty_percent , uint8_t OC1_NO
 	
 
 
-	TOP_Value = MCAL_Get_Top_Value(&TOP_Value);
+	MCAL_Get_Top_Value(&TOP_Value);
 
 	
 	Duty_Cycle = ( (OCR1_Vale+1) *100) /(TOP_Value+1);
