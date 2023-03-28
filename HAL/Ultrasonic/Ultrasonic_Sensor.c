@@ -12,8 +12,8 @@ Timer1_config_t Timer1;
 static uint8_t Flag = 0;
 static uint16_t T1 =0;
 static uint16_t T2 = 0;
-static uint16_t Counter =0; 
 static uint32_t Time = 0;
+extern Timer1_Oveflow_Times;
 
 void Input_Capture_IRQ_Callback(void);
 void Over_Floww_IRQ_Callback(void);
@@ -29,7 +29,7 @@ void Ultrasonic_Init(void)
 	Timer1.Waveform_Generation = Normal_TOP_0xFFFF;
 	Timer1.Timer1_Interrupt = (Interrupt_Input_Capture | Interrupt_Enable_Overflow);
 	Timer1.Input_Capture_Edge_Select= Input_Capture_Edge_Select_Rising;
-	Timer1.P_Overflow_IRQ_Callback = Over_Floww_IRQ_Callback;
+	Timer1.P_Overflow_IRQ_Callback = NULL;
 	Timer1.P_Input_Capture_IRQ_Callback = Input_Capture_IRQ_Callback;
 	MCAL_Timer1_init(&Timer1);
 }
@@ -47,8 +47,9 @@ void HAL_Ultrasonic_Start(uint8_t DIO_Number)
 	
 	/* ================ Strat Ultrasonic  =============== */
 	MCAL_DIO_Write_pin(Ultasonic_PORT,DIO_Number,DIO_PIN_High);
-	_delay_us(20);
+	_delay_us(10);
 	MCAL_DIO_Write_pin(Ultasonic_PORT,DIO_Number,DIO_PIN_Low);
+//	_delay_ms(5);
 	
 
 }
@@ -57,7 +58,7 @@ uint8_t HAL_Ultrasonic_Get_Distansc(uint8_t *Distance)
 	
 	if (Flag == 2)
 	{
-		Time = (uint16_t)(T2  + ((uint32_t)(Counter * 65535)) - T1)  ;
+		Time = (uint16_t)(T2  + ((uint32_t)(Timer1_Oveflow_Times * 65535)) - T1)  ;
 		*Distance = (uint8_t)( (Time / 58 ) +1 ); // ((Time /2) * 340  * 100) / 1000000
 		Flag = 0;
 		return 1;
@@ -65,13 +66,6 @@ uint8_t HAL_Ultrasonic_Get_Distansc(uint8_t *Distance)
 	return 0;
 	
 }
-
-
-void Over_Floww_IRQ_Callback(void)
-{
-	Counter ++;
-}
-
 void Input_Capture_IRQ_Callback(void)
 {
 
