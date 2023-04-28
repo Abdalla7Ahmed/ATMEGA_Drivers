@@ -141,7 +141,7 @@ typedef struct
 
 void MCAL_USART_Init(USART_Config *USART_Configuration);
 void MCAL_USART_Deinit(void);
-Flags_Error MCAL_USART_Send_data(uint16_t *TxBuffer,Polling_State_t Polling_state);
+void MCAL_USART_Send_data(uint16_t *TxBuffer,Polling_State_t Polling_state);
 Flags_Error MCAL_USART_Receive_Data(uint16_t *RxBuffer,Polling_State_t Polling_state);
 Flags_Error MCAL_USART_Send_AND_Receive_Data(uint16_t *Buffer,Polling_State_t Polling_state);
 void MCAL_USART_send_string(uint8_t *string);

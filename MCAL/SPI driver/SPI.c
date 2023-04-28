@@ -9,7 +9,10 @@
 #include "Includes/DIO.h"
 
 // ============================= General Pointers=========================
+void (*GP_IRQ_Callback)(void);
 
+
+SPI_PinConfig_t *GSPI_Config;
 
 // ============================= Inner Functions=========================
 void SPI_Pins_Master_init(void)
@@ -75,11 +78,14 @@ void SPI_Pins_Slave_init(void)
 ================================================================**/
 void MCAL_SPI_init(SPI_PinConfig_t *pinCinfig)
 {
+	GSPI_Config = pinCinfig;
 	
 	switch(pinCinfig->SPI_interrupt)
 	{
 		case SPI_Interrupt_Enable:
+			_SREG |= (1<<7);
 			SPI->SPCR_m |=SPIE_m;
+			GP_IRQ_Callback = pinCinfig->P_IRQ_Callback;
 			break;
 		case SPI_Interrupt_Disable:
 			SPI->SPCR_m &=~(SPIE_m);
@@ -180,10 +186,14 @@ void MCAL_SPI_init(SPI_PinConfig_t *pinCinfig)
  * Note		  - none
  * 			  
 ================================================================**/
-void MCAL_SPI_send_Data(uint8_t Data)
+void MCAL_SPI_send_Data(uint8_t *Data)
 {
-	SPI->SPDR_m = Data;
-	Wait_Transmition_complete();	
+	if(GSPI_Config->SPI_interrupt !=SPI_Interrupt_Enable)
+	{
+		Wait_Transmition_complete();	
+	}
+	SPI->SPDR_m = *Data;
+	
 }
 
 /**================================================================
@@ -194,10 +204,13 @@ void MCAL_SPI_send_Data(uint8_t Data)
  * Note		  - none
  * 			  
 ================================================================**/
-uint8_t MCAL_SPI_Receive_Data()
+void MCAL_SPI_Receive_Data(uint8_t *Data)
 {
-	Wait_Transmition_complete();
-	return SPI->SPDR_m;
+	if(GSPI_Config->SPI_interrupt !=SPI_Interrupt_Enable)
+	{
+		Wait_Transmition_complete();
+	}
+	*Data =  SPI->SPDR_m;
 }
 /**================================================================
  * @Fn		  - MCAL_SPI_send_Receive_Byte
@@ -208,9 +221,24 @@ uint8_t MCAL_SPI_Receive_Data()
  * Note		  - none
  * 			  
 ================================================================**/
-uint8_t MCAL_SPI_send_Receive_Data(uint8_t Data)
+void MCAL_SPI_send_Receive_Data(uint8_t *Data)
 {
-	SPI->SPDR_m = Data;
-	Wait_Transmition_complete();
-	return SPI->SPDR_m;
+	if(GSPI_Config->SPI_interrupt !=SPI_Interrupt_Enable)
+	{
+		Wait_Transmition_complete();
+	}
+	SPI->SPDR_m = *Data;
+	if(GSPI_Config->SPI_interrupt !=SPI_Interrupt_Enable)
+	{
+		Wait_Transmition_complete();
+	}
+	*Data =  SPI->SPDR_m;
 }
+
+
+
+ISR(SPI_STC_vect)
+{
+	GP_IRQ_Callback();
+}
+

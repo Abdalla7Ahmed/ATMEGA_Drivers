@@ -53,6 +53,8 @@ float HAL_LM35_Get_Vin_Value(void)
 }
 
 
+
+
 float HAL_LM35_Get_Temp_Value(void)
 {
 	float temp_value =0;

@@ -21,7 +21,7 @@ typedef struct
 	uint8_t SPI_Direction	   ;	 // the parameters must be set based on @ref SPI_Dir_define
 	uint8_t SPI_Mode		   ;	 // the parameters must be set based on @ref SPI_Mode_define
 	uint8_t SPI_Clock_Rate	   ;	 // the parameters must be set based on @ref SPI_Clock_Rate_define
-
+	void (*P_IRQ_Callback)(void);	 // the ISR of the interrupt 
 }SPI_PinConfig_t;
 
 
@@ -96,12 +96,16 @@ SPI2X			SPR1			SPR0			SCK Frequency
 
 #define Wait_Transmition_complete()						   while(!(SPI->SPSR_m)&(1<<7))
 
-
+typedef enum 
+{
+	Disable,
+	Enable
+}Polling_state;
 //====================== APIS ============================
 void MCAL_SPI_init(SPI_PinConfig_t *pinCinfig);
-void MCAL_SPI_send_Data(uint8_t Data);
-uint8_t MCAL_SPI_Receive_Data();
-uint8_t MCAL_SPI_send_Receive_Data(uint8_t Data);
+void MCAL_SPI_send_Data(uint8_t *Data);
+void MCAL_SPI_Receive_Data(uint8_t *Data);
+void MCAL_SPI_send_Receive_Data(uint8_t *Data);
 
 
 

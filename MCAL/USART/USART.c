@@ -202,7 +202,7 @@ void MCAL_USART_Deinit(void)
  * @retval	  - flags value
  * Note		  - none
 ================================================================**/	
-Flags_Error MCAL_USART_Send_data(uint16_t *TxBuffer,Polling_State_t Polling_state)
+void MCAL_USART_Send_data(uint16_t *TxBuffer,Polling_State_t Polling_state)
 {
 	if(Polling_state != Disable_Polling)
 	{
@@ -231,12 +231,7 @@ Flags_Error MCAL_USART_Send_data(uint16_t *TxBuffer,Polling_State_t Polling_stat
 	else if( (G_USART_Config.USART_PayLoad_Length) == USART_PayLoad_Length_5Bits)
 	{
 		_UDR = (*TxBuffer & (uint8_t)0x1F);
-	}
-	Flags_Error Flags;
-	Flags.Frame_Erro   = USART_Get_Flag_State(_FE);
-	Flags.Parity_Error = USART_Get_Flag_State(_PE);
-	Flags.Data_OverRun = USART_Get_Flag_State(_DOR);
-	return Flags;
+	}s
 }
 
 /**================================================================
