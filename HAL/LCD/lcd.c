@@ -5,7 +5,7 @@
  *  Author: Abotaleb
  */ 
 
-#include "lcd.h"
+#include "includes/LCD.h"
 
 
 // =========================== initialization of LCD ===========================
@@ -33,7 +33,7 @@ void LCD_INIT()
    #endif
     	LCD_WRITE_COMMAND(LCD_ENTRY_MODE);
     	LCD_WRITE_COMMAND(LCD_BEGIN_AT_FIRST_ROW);
-    	LCD_WRITE_COMMAND(LCD_DISP_ON_CURSOR_BLINK);
+    	LCD_WRITE_COMMAND(LCD_DISP_ON);
 
 }
 
@@ -49,7 +49,6 @@ void LCD_WRITE_COMMAND(unsigned char command)
 		LCD_lcd_kick();	
     #endif	
     #ifdef FOUR_BIT_MODE
-		LCD_check_lcd_isbusy();
 		LCD_PORT = (LCD_PORT & 0x0F) | (command & 0xF0);
 		CLEARBIT(LCD_CTRL,RW_SWITCH);
 		CLEARBIT(LCD_CTRL,RS_SWITCH);
