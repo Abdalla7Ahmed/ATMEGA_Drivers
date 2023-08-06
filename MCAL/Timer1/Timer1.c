@@ -293,22 +293,26 @@ Func_State MCAL_Timer1_init(Timer1_config_t *Timer1_config)
 	}
 	else
 	{
-		if(Timer1_config->Timer1_Polling == Polling_ON_Input_Capture)
-		{
-			while (! (_TIFR & (Polling_ON_Input_Capture)));
-		}
-		if(Timer1_config->Timer1_Polling ==Polling_ON_Output_Compare_A_Match )
-		{
-			while (! (_TIFR & (Polling_ON_Output_Compare_A_Match)));
-		}
-		if(Timer1_config->Timer1_Polling ==Polling_ON_Output_Compare_B_Match )
-		{
-			while (! (_TIFR & (Polling_ON_Output_Compare_B_Match)));
-		}
-		if(Timer1_config->Timer1_Polling ==Polling_ON_Overflow )
-		{
-			while (! (_TIFR & (Polling_ON_Overflow)));
-		}
+		/*=================================================================================================*/
+		/*==================== implementation the polling is not in the init function ==================== */
+		/*=================================================================================================*/
+		
+		// if(Timer1_config->Timer1_Polling == Polling_ON_Input_Capture)
+		// {
+		// 	while (! (_TIFR & (Polling_ON_Input_Capture)));
+		// }
+		// if(Timer1_config->Timer1_Polling ==Polling_ON_Output_Compare_A_Match )
+		// {
+		// 	while (! (_TIFR & (Polling_ON_Output_Compare_A_Match)));
+		// }
+		// if(Timer1_config->Timer1_Polling ==Polling_ON_Output_Compare_B_Match )
+		// {
+		// 	while (! (_TIFR & (Polling_ON_Output_Compare_B_Match)));
+		// }
+		// if(Timer1_config->Timer1_Polling ==Polling_ON_Overflow )
+		// {
+		// 	while (! (_TIFR & (Polling_ON_Overflow)));
+		// }
 	}
 
 	/* ============ Set TCNT1 Value ============*/
