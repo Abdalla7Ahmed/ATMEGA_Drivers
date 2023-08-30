@@ -10,7 +10,7 @@
 #define LDR_H_
 #include "../../MCAL/Includes/DIO.h"
 #include "../../MCAL/Includes/ADC.h"
-#define LDR_Port									DIOC
+#define LDR_Port									DIOA
 #define LDR_Pin										DIO_PIN_0
 
 
