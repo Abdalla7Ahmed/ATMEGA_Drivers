@@ -33,6 +33,8 @@ void(* GP_IRQ_CallBack[3])(void);
 
 void MCAL_EXTRI_GPIO_INIT(EXTRI_PinConfig_t *EXTRI_Config)
 {
+	DIO_PinConfig_t EXTRI_pin;
+
 	if ((EXTRI_Config->EXTRI_Number == EXTI_0) || (EXTRI_Config->EXTRI_Number == EXTI_1) )
 	{
 		/*
@@ -60,16 +62,25 @@ void MCAL_EXTRI_GPIO_INIT(EXTRI_PinConfig_t *EXTRI_Config)
 		}
 		if (EXTRI_Config->EXTRI_Number == EXTI_0)
 		{
+			EXTRI_pin.DIO_PinNumber = DIO_PIN_2;
+			EXTRI_pin.DIO_Mood 	    = DIO_Mood_Input_PU;
+			MCAL_DIO_init(DIOD,&DIO_pin);
 			_GICR |=(1<<6);
 		}
 		else if (EXTRI_Config->EXTRI_Number == EXTI_1)
 		{
+			EXTRI_pin.DIO_PinNumber = DIO_PIN_3;
+			EXTRI_pin.DIO_Mood 	    = DIO_Mood_Input_PU;
+			MCAL_DIO_init(DIOD,&DIO_pin);
 			_GICR |=(1<<7);
 		}
 	}
 	// INT2 can be only rising or failing edge
 	else if (EXTRI_Config->EXTRI_Number == EXTI_2)
 	{
+		EXTRI_pin.DIO_PinNumber = DIO_PIN_2;
+		EXTRI_pin.DIO_Mood 	    = DIO_Mood_Input_PU;
+		MCAL_DIO_init(DIOB,&DIO_pin);
 		if (EXTRI_Config->EXTRI_Case ==EXTRI_Trigger_Failing)
 		{
 			_MCUCSR &=~(1<<6);

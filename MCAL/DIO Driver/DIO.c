@@ -51,9 +51,9 @@ void MCAL_DIO_init(Typdef_DIOx_t *DIOx,DIO_PinConfig_t *DIO_config)
  * Note       - none
  *            
 ================================================================**/
-void MCAL_DIO_init_PORT(Typdef_DIOx_t *DIOx,DIO_PinConfig_t *DIO_config)
+void MCAL_DIO_init_PORT(Typdef_DIOx_t *DIOx,uint8_t Mode)
 {
-    switch(DIO_config->DIO_Mood)
+    switch(Mode)
     {
         case DIO_Mood_Input_HIZ :
             DIOx->DDRx  = 0x00;
@@ -173,7 +173,6 @@ void MCAL_DIO_Toggle_Pin(Typdef_DIOx_t *DIOx,uint8_t Pin_number)
 ================================================================**/
 void MCAL_DIO_Toggle_Port(Typdef_DIOx_t *DIOx)
 {
-	DIOx->DDRx = 0xFF;
 	MCAL_DIO_Toggle_Pin(DIOx,DIO_PIN_0);
 	MCAL_DIO_Toggle_Pin(DIOx,DIO_PIN_1);     
  	MCAL_DIO_Toggle_Pin(DIOx,DIO_PIN_2);

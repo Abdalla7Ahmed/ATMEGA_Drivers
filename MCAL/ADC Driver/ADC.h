@@ -92,7 +92,7 @@ typedef struct
 #define ADC_Interrupt_Enable_CC								(uint8_t)(1<<3) // conversion completes interrupt
 
 //@ref ADC_Prescaler_define
-#define ADC_Prescaler_0										(uint8_t)(0x0)
+#define ADC_Prescaler_1										(uint8_t)(0x0)
 #define ADC_Prescaler_2										(uint8_t)(0x1)
 #define ADC_Prescaler_4										(uint8_t)(0x2)
 #define ADC_Prescaler_8										(uint8_t)(0x3)

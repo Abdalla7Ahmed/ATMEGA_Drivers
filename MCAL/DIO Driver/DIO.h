@@ -54,7 +54,7 @@ typedef struct
 
 //====================== APIS ============================
 void MCAL_DIO_init(Typdef_DIOx_t *DIOx,DIO_PinConfig_t *DIO_config);
-void MCAL_DIO_init_PORT(Typdef_DIOx_t *DIOx,DIO_PinConfig_t *DIO_config);
+void MCAL_DIO_init_PORT(Typdef_DIOx_t *DIOx,uint8_t Mode);
 void MCAL_DIO_Deinit(Typdef_DIOx_t *DIOx);
 void MCAL_DIO_Write_pin(Typdef_DIOx_t *DIOx,uint8_t Pin_number,uint8_t value);
 void MCAL_DIO_Write_Port(Typdef_DIOx_t *DIOx,uint8_t value);

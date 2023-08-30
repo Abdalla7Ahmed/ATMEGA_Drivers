@@ -27,7 +27,7 @@ void(* ADC_IRQ_Conversion_Complete_CallBack)(void);
 ADC_config_t *GADC_config = NULL;
 DIO_PinConfig_t DIO_Pin;
 EXTRI_PinConfig_t EXTRI_Pin;
-Timer0_config_t Timer0_Pin;
+Timer8bit_config_t Timer8bit_Pin;
 
 //-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 // Generic Functions
@@ -225,19 +225,19 @@ void MCAL_ADC_init(ADC_config_t *ADC_PinConfig)
 				MCAL_EXTRI_GPIO_INIT(&EXTRI_Pin);
 				break;
 			case ADC_Auto_Trigger_Source_Timerr0_Compare_Match:
-				Timer0_Pin.Timer0_mode = Timer0_CTC_mode;
-				Timer0_Pin.Clock_Select = Clock_Select_8_prescaling;
-				Timer0_Pin.Interrupt_controle = Interrupt_Enable_Compare;
-				Timer0_Pin.OCO_Actio=OC0_disconnected;
-				Timer0_Pin.Output_Compare_Register_Value = ADC_PinConfig->ADC_Auto_Trigger_Compare_Value;
-				MCAL_Timer0_init(&Timer0_Pin);
+				Timer8bit_Pin.Timer8bit_mode = Timer8bit_CTC_mode;
+				Timer8bit_Pin.Clock_Select = Clock_Select_8_prescaling;
+				Timer8bit_Pin.Interrupt_controle = Timer0_Interrupt_Enable_Compare;
+				Timer8bit_Pin.OC_Actio=OC_disconnected;
+				Timer8bit_Pin.Output_Compare_Register_Value = ADC_PinConfig->ADC_Auto_Trigger_Compare_Value;
+				MCAL_Timer8bit_init(&Timer8bit_Pin);
 				break;
 			case ADC_Auto_Trigger_Source_Timerr0_Overflow:
-				Timer0_Pin.Timer0_mode = Timer0_Normal_mode;
-				Timer0_Pin.Clock_Select = Clock_Select_8_prescaling;
-				Timer0_Pin.Interrupt_controle = Interrupt_Enable_Overflow;
-				Timer0_Pin.OCO_Actio=OC0_disconnected;
-				MCAL_Timer0_init(&Timer0_Pin);
+				Timer8bit_Pin.Timer8bit_mode = Timer8bit_Normal_mode;
+				Timer8bit_Pin.Clock_Select = Clock_Select_8_prescaling;
+				Timer8bit_Pin.Interrupt_controle = Timer0_Interrupt_Enable_Overflow;
+				Timer8bit_Pin.OC_Actio=OC_disconnected;
+				MCAL_Timer8bit_init(&Timer8bit_Pin);
 				break;
 			case ADC_Auto_Trigger_Source_Timerr1_Compare_Match:
 			case ADC_Auto_Trigger_Source_Timerr1_Overflow:
@@ -261,11 +261,6 @@ void MCAL_ADC_init(ADC_config_t *ADC_PinConfig)
 		
 		_ADCSRA |=ADC_Interrupt_Enable_CC;
 		ADC_IRQ_Conversion_Complete_CallBack = ADC_PinConfig->P_IRQ_Callback;
-	}
-	else 
-	{
-		 // polling mechanism
-		while(!(_ADCSRA &(1<<4)));          
 	}
 }
 /**================================================================
@@ -294,6 +289,12 @@ uint16_t MCAL_GET_ADC_Conversion(void)
 	uint8_t Low_Value = 0;
 	uint8_t High_Value = 0;
 	uint16_t Total_Value=0;
+	if(GADC_config->ADC_Interrupt_Enable ==ADC_Interrupt_Enable_NONE)
+	{
+		// polling mechanism
+		while(!(_ADCSRA &(1<<4)));
+	}
+
 	
 	if(GADC_config->ADC_Adjust_Result == ADC_Adjust_Result_LEFT)
 	{
