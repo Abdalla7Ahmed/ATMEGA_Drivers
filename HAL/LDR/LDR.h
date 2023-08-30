@@ -11,7 +11,7 @@
 #include "../../MCAL/Includes/DIO.h"
 #include "../../MCAL/Includes/ADC.h"
 #define LDR_Port									DIOA
-#define LDR_Pin										DIO_PIN_0
+#define LDR_Pin										Inpu_Channel_Single_Ended_ADC0
 
 
 void HAL_LDR_Init(void);
