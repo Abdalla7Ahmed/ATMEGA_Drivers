@@ -18,7 +18,7 @@ void HAL_LDR_Init(void)
 	ADC_PIN_CONFIG.ADC_Interrupt_Enable = ADC_Interrupt_Enable_CC;
 	ADC_PIN_CONFIG.ADC_Prescaler = ADC_Prescaler_128;
 	ADC_PIN_CONFIG.ADC_Voltage_ref = ADC_Voltage_ref_internal_2_56V;
-	ADC_PIN_CONFIG.Inpu_Channel = Inpu_Channel_Single_Ended_ADC0;
+	ADC_PIN_CONFIG.Inpu_Channel = LDR_Pin;
 	ADC_PIN_CONFIG.P_IRQ_Callback = HAL_LDR_Get_Value;
 	MCAL_ADC_init(&ADC_PIN_CONFIG);
 	
