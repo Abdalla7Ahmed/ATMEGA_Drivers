@@ -74,9 +74,9 @@ uint32_t Timer2_Oveflow_Times =0;
 			 Timer0_IRQ_OverFlow_CallBack=Timer8bit_Mode[Normal_Mode_Index].P_OverFlow_IRQ_Callback;
 			 Timer0_Enable_OverFlow_Interrupt();
 		 }
-		 else if (Timer8bit_Mode[Normal_Mode_Index].Polling_controle == Timer0_Polling_Enable_Overflow)
+		 else 
 		 {
-			 while(!(_TIFR & (Timer8bit_Mode[Normal_Mode_Index].Polling_controle)));
+		 	
 		 }
 	 }
 	 else if(Timer8bit_Mode[Normal_Mode_Index].Timer_Number == Timer_Number_TWO)
@@ -89,9 +89,9 @@ uint32_t Timer2_Oveflow_Times =0;
 			 Timer2_IRQ_OverFlow_CallBack=Timer8bit_Mode[Normal_Mode_Index].P_OverFlow_IRQ_Callback;
 			 Timer2_Enable_OverFlow_Interrupt();
 		 }
-		 else if (Timer8bit_Mode[Normal_Mode_Index].Polling_controle == Timer2_Polling_Enable_Overflow)
+		 else 
 		 {
-			 while(!(_TIFR & (Timer8bit_Mode[Normal_Mode_Index].Polling_controle)));
+		 	
 		 }
 	 }
 	 
@@ -138,9 +138,9 @@ void MCAL_Timer8bit_Init_CTC_Mode()
 			 Timer0_IRQ_Compare_value_CallBack=Timer8bit_Mode[CTC_Mode_Index].P_Compare_IRQ_Callback;
 			 Timer0_Enable_Compare_Interrupt();
 		 }
-		 else if (Timer8bit_Mode[CTC_Mode_Index].Polling_controle == Timer0_Polling_Enable_Compare)
+		 else 
 		 {
-			 while(!(_TIFR & (Timer8bit_Mode[CTC_Mode_Index].Polling_controle)));
+		 	
 		 }
 		
 	 }
@@ -154,9 +154,9 @@ void MCAL_Timer8bit_Init_CTC_Mode()
 			 Timer2_IRQ_Compare_value_CallBack=Timer8bit_Mode[CTC_Mode_Index].P_Compare_IRQ_Callback;
 			 Timer2_Enable_Compare_Interrupt();
 		 }
-		 else if (Timer8bit_Mode[CTC_Mode_Index].Polling_controle == Timer2_Polling_Enable_Compare)
+		 else 
 		 {
-			 while(!(_TIFR & (Timer8bit_Mode[CTC_Mode_Index].Polling_controle)));
+		 	
 		 }
 		
 	 }
